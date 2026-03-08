@@ -33,7 +33,7 @@ const supaAuth = async (path, body) => {
 };
 
 // ── TMDB CONFIG ──
-const API_KEY = "14b6f3cda863a1aaba9c2c8ee8983f77";
+const API_KEY = "2ad80e87ce3e11b9199e73ded658250d";
 const BASE = "https://api.themoviedb.org/3";
 const IMG = "https://image.tmdb.org/t/p";
 
