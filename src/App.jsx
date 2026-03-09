@@ -70,8 +70,8 @@ body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;overfl
 /* NAV */
 .nav{position:fixed;top:0;left:0;right:0;z-index:300;height:var(--nav-h);display:flex;align-items:center;background:var(--ink2);}
 .nav-logo{display:flex;align-items:center;gap:10px;padding:0 24px;height:100%;cursor:pointer;flex-shrink:0;border-right:1px solid rgba(255,255,255,.08);}
-.nav-logo-icon{width:34px;height:34px;border-radius:var(--r);background:var(--blue);display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;transition:transform .2s;box-shadow:0 0 14px rgba(37,99,235,.4);}
-.nav-logo:hover .nav-logo-icon{transform:scale(1.08) rotate(-5deg)}
+.nav-logo:hover .logo-img{transform:scale(1.08) rotate(-5deg)}
+.nav-logo .logo-img{transition:transform .2s;box-shadow:0 0 14px rgba(124,58,237,.4)}
 .nav-logo-text{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:3px;color:#fff;white-space:nowrap}
 .nav-links{display:flex;align-items:center;height:100%;padding:0 8px}
 .nav-link{font-size:.82rem;font-weight:500;color:rgba(255,255,255,.55);background:none;border:none;padding:0 16px;height:100%;cursor:pointer;transition:color .18s;display:flex;align-items:center;border-bottom:3px solid transparent;white-space:nowrap;}
@@ -375,6 +375,28 @@ body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;overfl
 .modal-vid iframe{width:100%;height:100%;border:none;display:block}
 .modal-no{aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:rgba(255,255,255,.3);font-size:.88rem}
 
+/* WHERE TO WATCH */
+.watch-section{padding:32px 60px 42px;border-top:1px solid var(--border)}
+.watch-title{font-size:1.1rem;font-weight:800;margin-bottom:22px;display:flex;align-items:center;gap:10px}
+.watch-title .jw-attr{font-size:.65rem;font-weight:500;color:var(--muted);margin-left:auto}
+.watch-title .jw-attr a{color:var(--blue);text-decoration:none}
+.watch-title .jw-attr a:hover{text-decoration:underline}
+.watch-group{margin-bottom:22px}
+.watch-group-label{font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.watch-group-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.watch-providers{display:flex;gap:10px;flex-wrap:wrap}
+.watch-provider{display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--surface);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .22s;text-decoration:none;color:var(--ink)}
+.watch-provider:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 6px 20px rgba(124,58,237,.15);background:var(--surface2)}
+.watch-provider img{width:36px;height:36px;border-radius:8px;object-fit:cover;flex-shrink:0}
+.watch-provider-name{font-size:.82rem;font-weight:600}
+.watch-provider-type{font-size:.65rem;color:var(--muted)}
+.watch-none{text-align:center;padding:28px;color:var(--muted);font-size:.88rem;border:1px dashed var(--border);border-radius:10px}
+
+/* LOGO IMG */
+.logo-img{width:28px;height:28px;border-radius:6px;object-fit:cover;flex-shrink:0}
+.logo-img-lg{width:36px;height:36px;border-radius:8px}
+.logo-img-sm{width:24px;height:24px;border-radius:5px}
+
 /* WATCHLIST */
 .wl-page{padding:48px}
 .wl-h1{font-family:'Bebas Neue',sans-serif;font-size:2.6rem;letter-spacing:2px;margin-bottom:6px}
@@ -478,7 +500,7 @@ function AuthModal({ onClose, onAuth }) {
         <div className="auth-box">
           <div className="auth-head">
             <div className="auth-logo">
-              <div className="auth-logo-icon">🎬</div>
+              <img src="/logo.png" alt="Apex Cinema" className="logo-img logo-img-lg" />
               <span className="auth-logo-text">APEX CINEMA</span>
             </div>
             <div className="auth-title">{tab === "login" ? "Welcome Back" : "Create Account"}</div>
@@ -639,7 +661,7 @@ function CTAFooter({ bgImages, onNav, user, onShowAuth }) {
         <div className="footer-grid">
           <div>
             <div className="footer-logo">
-              <div className="footer-logo-icon">🎬</div>
+              <img src="/logo.png" alt="Apex Cinema" className="logo-img" />
               <span className="footer-logo-text">APEX CINEMA</span>
             </div>
             <div className="footer-tagline">Your premium cinema destination — discover, track and enjoy millions of movies and series.</div>
@@ -943,6 +965,7 @@ function DetailPage({ movie, onBack, user, onShowAuth, session }) {
   const [hoverRating, setHoverRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
   const [reviewLoading, setReviewLoading] = useState(false);
+  const [watchProviders, setWatchProviders] = useState(null);
   const isTV = movie.media_type === "tv" || !!movie.first_air_date;
   const type = isTV ? "tv" : "movie";
 
@@ -950,13 +973,18 @@ function DetailPage({ movie, onBack, user, onShowAuth, session }) {
     window.scrollTo(0, 0);
     (async () => {
       try {
-        const [det, cred, sim] = await Promise.all([
+        const [det, cred, sim, wp] = await Promise.all([
           tmdb(`/${type}/${movie.id}`),
           tmdb(`/${type}/${movie.id}/credits`),
           tmdb(`/${type}/${movie.id}/similar`),
+          tmdb(`/${type}/${movie.id}/watch/providers`),
         ]);
         setDetails(det); setCredits(cred);
         setSimilar(sim.results?.filter(m => m.poster_path).slice(0, 12) || []);
+        // Get user's country providers or fallback to US
+        const countryCode = Intl.DateTimeFormat().resolvedOptions().locale?.split('-')[1] || 'US';
+        const providers = wp.results?.[countryCode] || wp.results?.['US'] || null;
+        setWatchProviders(providers);
       } catch { }
       finally { setLoading(false); }
     })();
@@ -1074,6 +1102,71 @@ function DetailPage({ movie, onBack, user, onShowAuth, session }) {
                 </button>
               </div>
             </div>
+          </div>
+
+          {/* WHERE TO WATCH SECTION */}
+          <div className="watch-section">
+            <div className="watch-title">
+              📡 Where to Watch
+              <span className="jw-attr">Data by <a href="https://www.justwatch.com" target="_blank" rel="noopener noreferrer">JustWatch</a></span>
+            </div>
+            {watchProviders ? (
+              <>
+                {watchProviders.flatrate?.length > 0 && (
+                  <div className="watch-group">
+                    <div className="watch-group-label">Stream</div>
+                    <div className="watch-providers">
+                      {watchProviders.flatrate.map(p => (
+                        <a key={p.provider_id} className="watch-provider" href={watchProviders.link} target="_blank" rel="noopener noreferrer">
+                          <img src={`${IMG}/w92${p.logo_path}`} alt={p.provider_name} />
+                          <div>
+                            <div className="watch-provider-name">{p.provider_name}</div>
+                            <div className="watch-provider-type">Streaming</div>
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {watchProviders.rent?.length > 0 && (
+                  <div className="watch-group">
+                    <div className="watch-group-label">Rent</div>
+                    <div className="watch-providers">
+                      {watchProviders.rent.map(p => (
+                        <a key={p.provider_id} className="watch-provider" href={watchProviders.link} target="_blank" rel="noopener noreferrer">
+                          <img src={`${IMG}/w92${p.logo_path}`} alt={p.provider_name} />
+                          <div>
+                            <div className="watch-provider-name">{p.provider_name}</div>
+                            <div className="watch-provider-type">Rent</div>
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {watchProviders.buy?.length > 0 && (
+                  <div className="watch-group">
+                    <div className="watch-group-label">Buy</div>
+                    <div className="watch-providers">
+                      {watchProviders.buy.map(p => (
+                        <a key={p.provider_id} className="watch-provider" href={watchProviders.link} target="_blank" rel="noopener noreferrer">
+                          <img src={`${IMG}/w92${p.logo_path}`} alt={p.provider_name} />
+                          <div>
+                            <div className="watch-provider-name">{p.provider_name}</div>
+                            <div className="watch-provider-type">Purchase</div>
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {!watchProviders.flatrate && !watchProviders.rent && !watchProviders.buy && (
+                  <div className="watch-none">📡 No streaming info available for your region. Check <a href={watchProviders.link} target="_blank" rel="noopener noreferrer" style={{color:'var(--blue)'}}>TMDB</a> for more details.</div>
+                )}
+              </>
+            ) : (
+              <div className="watch-none">🌍 No streaming availability found for this title in your region.</div>
+            )}
           </div>
 
           {/* REVIEWS SECTION */}
@@ -1277,7 +1370,7 @@ export default function App() {
 
       <nav className="nav">
         <div className="nav-logo" onClick={() => goPage("home")}>
-          <div className="nav-logo-icon">🎬</div>
+          <img src="/logo.png" alt="Apex Cinema" className="logo-img" />
           <span className="nav-logo-text">APEX CINEMA</span>
         </div>
         <div className="nav-links">
