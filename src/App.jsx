@@ -36,6 +36,7 @@ const supaAuth = async (path, body) => {
 const API_KEY = "2ad80e87ce3e11b9199e73ded658250d";
 const BASE = "https://api.themoviedb.org/3";
 const IMG = "https://image.tmdb.org/t/p";
+const APP_NAME = "APEX CINEMA";
 
 const tmdb = async (path, params = {}) => {
   const q = new URLSearchParams({ api_key: API_KEY, language: "en-US", ...params });
@@ -49,21 +50,21 @@ const STYLE = `
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Bebas+Neue&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#f8f9fa;--surface:#fff;--surface2:#f2f4f6;--border:#e3e6ea;
-  --ink:#0d0d0d;--ink2:#141414;--text2:#6b7280;--muted:#b0b5bc;
-  --blue:#2563eb;--blue2:#3b82f6;--blue3:#1d4ed8;--blue-light:#eff6ff;
+  --bg:#0a0a0f;--surface:#12121a;--surface2:#1a1a26;--border:#2a2a3d;
+  --ink:#f0f0ff;--ink2:#0d0d14;--text2:#9090b0;--muted:#55557a;
+  --blue:#7c3aed;--blue2:#8b5cf6;--blue3:#6d28d9;--blue-light:#1e1030;
   --gold:#f59e0b;--green:#22c55e;--red:#ef4444;--nav-h:64px;--r:8px;
 }
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;overflow-x:hidden;min-height:100vh}
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:#bbb;border-radius:3px}
-::-webkit-scrollbar-thumb:hover{background:#888}
+::-webkit-scrollbar-thumb{background:#3a3a5c;border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:#6b6b99}
 
 /* PARTICLES */
 .particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-.particle{position:absolute;border-radius:50%;background:rgba(37,99,235,0.05);animation:floatUp linear infinite}
+.particle{position:absolute;border-radius:50%;background:rgba(124,58,237,0.08);animation:floatUp linear infinite}
 @keyframes floatUp{0%{transform:translateY(110vh) scale(0);opacity:0}8%{opacity:1}92%{opacity:.4}100%{transform:translateY(-80px) scale(1.5);opacity:0}}
 
 /* NAV */
@@ -145,7 +146,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;overfl
 .tab-label-dark{color:#fff}
 .tab{font-size:.82rem;font-weight:600;color:var(--text2);background:none;border:none;padding:16px 16px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;transition:color .18s;white-space:nowrap;flex-shrink:0}
 .tab:hover{color:var(--ink)}
-.tab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.tab.active{color:var(--blue2);border-bottom-color:var(--blue2)}
 .tab-dark{color:rgba(255,255,255,.45)}
 .tab-dark:hover{color:#fff}
 .tab-dark.active{color:#fff;border-bottom-color:#fff}
@@ -177,13 +178,13 @@ body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;overfl
 .arr.r{right:-16px}
 
 /* POSTER CARD */
-.pcard{flex-shrink:0;width:158px;border-radius:var(--r);overflow:hidden;background:var(--surface);box-shadow:0 2px 8px rgba(0,0,0,.08);cursor:pointer;scroll-snap-align:start;transition:transform .28s cubic-bezier(.22,1,.36,1),box-shadow .28s;animation:cardRise .4s ease both;border:1px solid var(--border)}
+.pcard{flex-shrink:0;width:158px;border-radius:var(--r);overflow:hidden;background:var(--surface);box-shadow:0 2px 8px rgba(0,0,0,.4);cursor:pointer;scroll-snap-align:start;transition:transform .28s cubic-bezier(.22,1,.36,1),box-shadow .28s;animation:cardRise .4s ease both;border:1px solid var(--border)}
 @keyframes cardRise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-.pcard:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 18px 40px rgba(0,0,0,.15);border-color:var(--blue)}
-.pcard-dark{background:#1e1e1e;border-color:#2a2a2a}
+.pcard:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 18px 40px rgba(124,58,237,.25);border-color:var(--blue)}
+.pcard-dark{background:var(--surface2);border-color:var(--border)}
 .pcard-dark:hover{border-color:var(--blue)}
-.pcard-img{position:relative;padding-top:150%;overflow:hidden;background:#e8e8e8}
-.pcard-dark .pcard-img{background:#2a2a2a}
+.pcard-img{position:relative;padding-top:150%;overflow:hidden;background:#1a1a2e}
+.pcard-dark .pcard-img{background:#1a1a2e}
 .pcard-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .4s}
 .pcard:hover .pcard-img img{transform:scale(1.07)}
 .pcard-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,transparent 55%);opacity:0;transition:opacity .28s;display:flex;flex-direction:column;justify-content:flex-end;padding:12px}
@@ -196,10 +197,10 @@ body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;overfl
 .pcard-dark .ring-inner{background:#1a1a1a}
 .pcard-meta{padding:26px 10px 6px}
 .pcard-name{font-weight:700;font-size:.82rem;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px}
-.pcard-dark .pcard-name{color:#fff}
+.pcard-dark .pcard-name{color:var(--ink)}
 .pcard-date{font-size:.72rem;color:var(--text2);padding-bottom:10px}
-.pcard-dark .pcard-date{color:rgba(255,255,255,.38)}
-.no-img{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2.2rem;color:#ccc}
+.pcard-dark .pcard-date{color:var(--text2)}
+.no-img{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2.2rem;color:#444}
 
 /* TWO COL */
 .two-col{display:grid;grid-template-columns:1fr 340px;gap:28px;padding:36px 48px}
@@ -220,7 +221,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;overfl
 .cta-bg-grid{position:absolute;inset:0;display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(2,1fr);gap:3px;opacity:.18}
 .cta-bg-cell{overflow:hidden;background:#111}
 .cta-bg-cell img{width:100%;height:100%;object-fit:cover;filter:saturate(.4) contrast(1.1)}
-.cta-bg-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(20,20,20,.94) 0%,rgba(20,20,20,.75) 50%,rgba(37,99,235,.15) 100%)}
+.cta-bg-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,10,15,.96) 0%,rgba(10,10,15,.78) 50%,rgba(124,58,237,.18) 100%)}
 .cta-grain{position:absolute;inset:0;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grainAnim 0.4s steps(2) infinite}
 @keyframes grainAnim{0%{transform:translate(0,0)}25%{transform:translate(-2px,2px)}50%{transform:translate(2px,-1px)}75%{transform:translate(-1px,-2px)}100%{transform:translate(0,0)}}
 .cta-shape{position:absolute;border-radius:50%;filter:blur(60px);animation:shapeFloat ease-in-out infinite alternate}
@@ -229,13 +230,13 @@ body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;overfl
 .cta-tag{display:inline-flex;align-items:center;gap:8px;margin-bottom:24px;font-size:.68rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.38);border:1px solid rgba(255,255,255,.1);padding:7px 16px;border-radius:20px;background:rgba(255,255,255,.04)}
 .cta-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);animation:livePulse 2s ease infinite}
 .cta-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,6vw,5rem);letter-spacing:2px;color:#fff;line-height:1;margin-bottom:16px;animation:textGlow 3s ease-in-out infinite alternate}
-@keyframes textGlow{0%{text-shadow:none}100%{text-shadow:0 0 40px rgba(37,99,235,.4)}}
+@keyframes textGlow{0%{text-shadow:none}100%{text-shadow:0 0 40px rgba(124,58,237,.5)}}
 .cta-title span{color:var(--blue)}
 .cta-desc{font-size:1rem;color:rgba(255,255,255,.45);line-height:1.8;max-width:560px;margin-bottom:40px}
 .cta-cards{display:flex;gap:18px;margin-bottom:44px;flex-wrap:wrap;justify-content:center;width:100%;max-width:860px}
 .cta-card{flex:1;min-width:220px;max-width:260px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:24px 20px;text-align:left;transition:all .3s;animation:cardFloat ease-in-out infinite alternate}
 @keyframes cardFloat{0%{transform:translateY(0)}100%{transform:translateY(-8px)}}
-.cta-card:hover{background:rgba(37,99,235,.1);border-color:rgba(37,99,235,.35);transform:translateY(-12px)!important;box-shadow:0 16px 40px rgba(37,99,235,.2)}
+.cta-card:hover{background:rgba(124,58,237,.12);border-color:rgba(124,58,237,.4);transform:translateY(-12px)!important;box-shadow:0 16px 40px rgba(124,58,237,.25)}
 .cta-card-icon{font-size:1.8rem;margin-bottom:14px;display:block}
 .cta-card-title{font-weight:800;font-size:.92rem;color:#fff;margin-bottom:8px}
 .cta-card-text{font-size:.8rem;color:rgba(255,255,255,.42);line-height:1.65}
@@ -301,7 +302,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;overfl
 /* DETAIL */
 .detail-hero{position:relative;height:52vh;min-height:340px;overflow:hidden}
 .detail-hero img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
-.detail-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(248,249,250,0) 0%,var(--bg) 92%),linear-gradient(to right,rgba(248,249,250,.75) 0%,transparent 55%)}
+.detail-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,10,15,0) 0%,var(--bg) 92%),linear-gradient(to right,rgba(10,10,15,.85) 0%,transparent 55%)}
 .detail-body{display:flex;gap:40px;padding:0 60px 56px;margin-top:-170px;position:relative;z-index:2}
 .detail-poster{flex-shrink:0;width:190px;border-radius:var(--r);overflow:hidden;box-shadow:0 20px 56px rgba(0,0,0,.22);border:1px solid var(--border);animation:posterBob 3.5s ease-in-out infinite}
 @keyframes posterBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
@@ -478,7 +479,7 @@ function AuthModal({ onClose, onAuth }) {
           <div className="auth-head">
             <div className="auth-logo">
               <div className="auth-logo-icon">🎬</div>
-              <span className="auth-logo-text">MY MOVIE CAVE</span>
+              <span className="auth-logo-text">APEX CINEMA</span>
             </div>
             <div className="auth-title">{tab === "login" ? "Welcome Back" : "Create Account"}</div>
             <div className="auth-sub">{tab === "login" ? "Sign in to access your watchlist & reviews" : "Join the cave — it's completely free"}</div>
@@ -554,10 +555,16 @@ function TrailerModal({ movie, onClose }) {
   useEffect(() => {
     (async () => {
       try {
-        const d = await tmdb(`/${isTV ? "tv" : "movie"}/${movie.id}/videos`);
-        const v = d.results?.find(v => v.site === "YouTube" && ["Trailer", "Teaser"].includes(v.type));
-        setKey(v?.key || null);
-      } catch { setKey(null); }
+        const type = isTV ? "tv" : "movie";
+        const d = await tmdb(`/${type}/${movie.id}/videos`, { include_video_language: "en" });
+        const videos = d.results || [];
+        // Try to find best trailer — official first, then any
+        const trailer = videos.find(v => v.site === "YouTube" && v.type === "Trailer" && v.official)
+          || videos.find(v => v.site === "YouTube" && v.type === "Trailer")
+          || videos.find(v => v.site === "YouTube" && v.type === "Teaser")
+          || videos.find(v => v.site === "YouTube");
+        setKey(trailer?.key || null);
+      } catch (e) { console.error("Trailer error:", e); setKey(null); }
       finally { setLoading(false); }
     })();
   }, [movie.id]);
@@ -572,8 +579,8 @@ function TrailerModal({ movie, onClose }) {
           {loading
             ? <div style={{ display: "flex", alignItems: "center", justifyContent: "center", aspectRatio: "16/9" }}><div className="spinner" style={{ borderTopColor: "#fff" }} /></div>
             : key
-              ? <iframe src={`https://www.youtube.com/embed/${key}?autoplay=1`} allowFullScreen allow="autoplay;encrypted-media" title="trailer" />
-              : <div className="modal-no">📽️<span>No trailer available</span></div>
+              ? <iframe src={`https://www.youtube.com/embed/${key}?autoplay=1&rel=0`} allowFullScreen allow="autoplay;encrypted-media;picture-in-picture" title="trailer" />
+              : <div className="modal-no">📽️<span>No trailer available for this title</span></div>
           }
         </div>
       </div>
@@ -586,10 +593,10 @@ function CTAFooter({ bgImages, onNav, user, onShowAuth }) {
   const SPEECHES = [
     { icon: "🎬", title: "Watch for Free", text: "Enjoy millions of movies and series completely free. No subscriptions, no hidden fees — just pure cinema." },
     { icon: "🗄️", title: "Contribute to Our Database", text: "Rate films, write reviews and help build the world's most complete movie database." },
-    { icon: "🌍", title: "Built for Everyone", text: "From Hollywood blockbusters to indie gems — My Movie Cave has something for every taste." },
+    { icon: "🌍", title: "Built for Everyone", text: "From Hollywood blockbusters to indie gems — Apex Cinema has something for every taste." },
     { icon: "🔔", title: "Stay Updated Daily", text: "New releases and trending titles updated every day so you never miss what's hot." },
   ];
-  const MT = ["MY MOVIE CAVE", "FREE FOREVER", "MILLIONS OF TITLES", "WATCH TRAILERS", "BUILD YOUR WATCHLIST", "RATE & REVIEW", "DISCOVER DAILY"];
+  const MT = ["APEX CINEMA", "FREE FOREVER", "MILLIONS OF TITLES", "WATCH TRAILERS", "BUILD YOUR WATCHLIST", "RATE & REVIEW", "DISCOVER DAILY"];
   return (
     <>
       <div className="cta-section">
@@ -605,7 +612,7 @@ function CTAFooter({ bgImages, onNav, user, onShowAuth }) {
         <div className="cta-shape" style={{ width: 300, height: 300, background: "rgba(37,99,235,.15)", top: "10%", left: "5%", animationDuration: "6s" }} />
         <div className="cta-shape" style={{ width: 200, height: 200, background: "rgba(37,99,235,.1)", bottom: "10%", right: "8%", animationDuration: "8s", animationDelay: "2s" }} />
         <div className="cta-inner">
-          <div className="cta-tag"><span className="cta-tag-dot" /> Join The Cave Today</div>
+          <div className="cta-tag"><span className="cta-tag-dot" /> Join Apex Cinema Today</div>
           <div className="cta-title">Your Cinema.<br /><span>Your Rules.</span></div>
           <p className="cta-desc">Explore, discover and enjoy millions of movies and series — completely free. Help us build the most complete movie database on the internet.</p>
           <div className="cta-cards">
@@ -633,9 +640,9 @@ function CTAFooter({ bgImages, onNav, user, onShowAuth }) {
           <div>
             <div className="footer-logo">
               <div className="footer-logo-icon">🎬</div>
-              <span className="footer-logo-text">MY MOVIE CAVE</span>
+              <span className="footer-logo-text">APEX CINEMA</span>
             </div>
-            <div className="footer-tagline">Your personal cinema — discover, track and enjoy millions of movies and series, completely free.</div>
+            <div className="footer-tagline">Your premium cinema destination — discover, track and enjoy millions of movies and series.</div>
           </div>
           <div>
             <div className="footer-col-title">Explore</div>
@@ -651,7 +658,7 @@ function CTAFooter({ bgImages, onNav, user, onShowAuth }) {
           </div>
         </div>
         <div className="footer-bottom">
-          <div className="footer-copy">© {new Date().getFullYear()} My Movie Cave. All rights reserved.</div>
+          <div className="footer-copy">© {new Date().getFullYear()} Apex Cinema. All rights reserved.</div>
           <div style={{ fontSize: ".72rem", color: "rgba(255,255,255,.2)", display: "flex", alignItems: "center", gap: 6 }}>
             Movie data powered by <span className="footer-tmdb">TMDB</span>
           </div>
@@ -713,7 +720,7 @@ function HomePage({ onMovieClick, onNav, user, onShowAuth }) {
         <div className="hero-banner">
           <div className="hero-banner-bg" style={{ backgroundImage: `url(${IMG}/original${hero.backdrop_path})` }} />
           <div className="hero-content">
-            <div className="hero-tag"><span className="live-dot" /> Welcome to My Movie Cave</div>
+            <div className="hero-tag"><span className="live-dot" /> Welcome to Apex Cinema</div>
             <div className="hero-title">Millions of Movies,<br />TV Shows & More.</div>
             <div className="hero-sub">Discover, track and enjoy — completely free.</div>
             <div className="hero-search-wrap">
@@ -1271,7 +1278,7 @@ export default function App() {
       <nav className="nav">
         <div className="nav-logo" onClick={() => goPage("home")}>
           <div className="nav-logo-icon">🎬</div>
-          <span className="nav-logo-text">MY MOVIE CAVE</span>
+          <span className="nav-logo-text">APEX CINEMA</span>
         </div>
         <div className="nav-links">
           {[["home", "Home"], ["browse", "Browse"], ["watchlist", "Watchlist"]].map(([p, l]) => (
